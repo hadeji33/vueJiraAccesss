@@ -12,6 +12,8 @@ export default {
   name: 'app',
   components: {
     HelloWorld
+  }, data: {
+
   }
 }
 </script>

@@ -1,40 +1,60 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <h1>{{ page }}</h1>
+
   </div>
 </template>
 
 <script>
+
+
+
+
+import * as axios from "axios";
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data() {
+    return {
+      message: 'Hello Vue!',
+      currentUrl: '',
+      auth: '',
+      page: ''
+    };
+  },
+  created: async function () {
+    console.log(axios);
+    axios.get("https://auth.atlassian.com/authorize", {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },      params:
+              { audience: 'api.atlassian.com',
+                client_id: 'Ktble6wjgyp3ZUisspLE5Skio0KCUFtd',
+                scope: 'read%3Ajira-user%20read%3Ajira-work',
+                redirect_uri: window.location.href,
+                state: '1fsfaalls1123lllsap',
+                response_type: 'code',
+                prompt: 'consent' } })
+            .then(response => (this.page = response.data));
+    const code = await getCode();
+    /*this.currentUrl = window.location.href;
+    const axios = require('axios');
+    const oauth = require('axios-oauth-client');
+    const getAuthorizationCode = oauth.client(axios.create(), {
+      url: 'https://auth.atlassian.com/oauth/token',
+      grant_type: 'authorization_code',
+      client_id: 'Ktble6wjgyp3ZUisspLE5Skio0KCUFtd',
+      client_secret: 'D_d8OusbNeOKYo9Dz_3T3eAWQ9l5prdXACTCBpnEh_TUM1NvRmYay0yHiLAX1i6S',
+      redirect_uri: 'window.location.href',
+      code: 'Oyf8M9ouKOdEPLE4&state=g6Fo2SBobWhBVVJqckNLQ…NpZNkgS3RibGU2d2pneXAzWlVpc3NwTEU1U2tpbzBLQ1VGdGQ'
+    });
+    this.auth = await getAuthorizationCode();*/
+  },
+  methods: {
+
   }
 }
 </script>
